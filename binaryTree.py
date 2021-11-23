@@ -22,9 +22,7 @@ class BinaryTree():
         if key <  root.key:
             return (self.search(root.left, key))
         elif key > root.key:
-            return (self.search(root.right, key))
-         
-    
+            return (self.search(root.right, key)) 
 
     def insert(self, element:Node):
         y:Node = None
@@ -46,6 +44,8 @@ class BinaryTree():
                 y.left = element
         else:
                 y.right = element
+
+    
 
 # root = BinaryTree()
 # root.insert(Node(9))

@@ -20,6 +20,8 @@ class Card(arcade.Sprite):
         self.texture = arcade.load_texture(self.image_file_name)
         self.is_face_up = True
 
+        
+
     @property
     def is_face_down(self):
         """ Is this card face down? """
