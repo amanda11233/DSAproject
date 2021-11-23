@@ -1,5 +1,6 @@
+# DSA Project.
 # A simple card game prototype using different data structures and sorting algorithms
-
+ 
 ## This card game is similar to the game called "Farash" or "Three cards poker"
 
 ## The basic concept of the game is that there are a certain number of players and each players are given 3 cards each.
