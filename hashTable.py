@@ -1,6 +1,4 @@
-
-from constants import CARD_REAL_VALUES
-
+ 
 class ClosedHash():
     def __init__(self, size):
         self.size = size

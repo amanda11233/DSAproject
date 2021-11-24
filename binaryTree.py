@@ -7,9 +7,7 @@ class Node:
         self.right = None
         self.p = None
         self.key = key
-
-    
-
+ 
 class BinaryTree():
     def __init__(self):
         self.Node = None
@@ -47,21 +45,21 @@ class BinaryTree():
 
     
 
-# root = BinaryTree()
-# root.insert(Node(9))
-# root.insert(Node(32))
-# root.insert(Node(44))
-# root.insert(Node(6))
-# root.insert(Node(34))
-# root.insert(Node(53))
-# root.insert(Node(442))
-# root.insert(Node(62))
-# root.insert(Node(66))
-# root.insert(Node(71))
+root = BinaryTree()
+root.insert(Node(9))
+root.insert(Node(32))
+root.insert(Node(44))
+root.insert(Node(6))
+root.insert(Node(34))
+root.insert(Node(53))
+root.insert(Node(442))
+root.insert(Node(62))
+root.insert(Node(66))
+root.insert(Node(71))
 
-# start = time.time()
-# print(root.search(root.Node, 9))
-# end = time.time()
-# totalTime = end - start 
-# print(f"{totalTime} seconds")
+start = time.time()
+print(root.search(root.Node, 9))
+end = time.time()
+totalTime = end - start 
+print(f"{totalTime} seconds")
 

@@ -1,6 +1,18 @@
 import numpy as np
 import random
 import math
+import random
+import time
+import timer
+
+arrr = []
+performance = []
+
+for i in range(100):
+    value_array = ["Player "+str(i), random.randint(0, 100)]
+    arrr.append(value_array)
+
+
 
 class BucketSort():
     def __init__(self):
@@ -22,7 +34,7 @@ class BucketSort():
             b_array[i] = []
 
         for j in range(1, n):
-            b_array[math.floor(n * (int(array[j][1]) / 100))].append(array[j])
+            b_array[math.floor(n * (int(array[j][1]) / 1000))].append(array[j])
 
 
         for k in range(idx):
@@ -31,7 +43,19 @@ class BucketSort():
         for idx, i in enumerate(b_array):
             for j in i:
                 array[idx] = j
+             
+
  
+
+bucketsort = BucketSort()
+
+ 
+start = time.perf_counter()  
+bucketsort.sort(arrr)
+end = time.perf_counter()
+elapsed = np.abs(start - end)
+print(f"BucketSort Time taken {elapsed} seconds") 
+performance.append(elapsed)
 
 class HeapSort():
     def __init__(self):
@@ -55,7 +79,17 @@ class HeapSort():
         for i in range(n-1, 0, -1):
             arr[i], arr[0] = arr[0], arr[i]
             self.heapify(arr, i, 0)
+
  
+sort = HeapSort()
+
+start = time.perf_counter()  
+sort.sort(arrr)
+end = time.perf_counter()
+elapsed = np.abs(start - end)
+print(f"HeapSort Time taken {elapsed} seconds") 
+performance.append(elapsed)
+
 class QuickSort():
     def __init__(self, order = "asc"): 
         self.order = order
@@ -89,7 +123,17 @@ class QuickSort():
             self.sort(arr, low, high = pi-1)
             self.sort(arr, low = pi+1, high = high)
         
- 
+start = time.perf_counter()
+sort = QuickSort() 
+sort.sort(arrr)
+end = time.perf_counter()
+elapsed = np.abs(start - end)
+print(f"QuickSort sort Time taken {elapsed} seconds") 
+performance.append(elapsed)
+# n = len(arr)
+# sort = QuickSort(order = "dec")
+# sort.sort(arr)
+# print(arr)
 
 class CountingSort():
      def __init__(self):
@@ -110,4 +154,23 @@ class CountingSort():
             b_array[c_array[int(array[j][1])]-1][1] = int(array[j][1])
             c_array[int(array[j][1])] = c_array[int(array[j][1])] - 1
         return b_array
- 
+        
+
+
+
+max__ = [int(i[1]) for i in arrr] 
+start = time.perf_counter()
+sort = CountingSort() 
+sortedarr = sort.sort(arrr, np.max(max__))
+end = time.perf_counter()
+elapsed = np.abs(start - end)
+print(f"Counting sort Time taken {elapsed} seconds") 
+performance.append(elapsed)
+
+
+max_per = np.max(performance)
+min_per = np.min(performance)
+
+print("================================================")
+print(f"Longest time taken: {max_per}")
+print(f"Shortest time taken: {min_per}")

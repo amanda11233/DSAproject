@@ -1,12 +1,13 @@
-import arcade 
+import arcade
+ 
 from constants import  CARD_REAL_VALUES, BOTTOM_FACE_DOWN_PILE, PILE_COUNT, TOP_PILE_1, TOP_PILE_4 , CARD_VERTICAL_OFFSET, PLAY_PILE_1, PLAY_PILE_7, MAT_WIDTH, MAT_HEIGHT,  X_SPACING, MIDDLE_Y,  TOP_Y, START_X, BOTTOM_Y, CARD_SCALE, CARD_HEIGHT, CARD_SUITS, CARD_VALUES, CARD_WIDTH
 from cards import Card
 import arcade.gui
-from time import time, time_ns
+import time
 import random
 from binaryTree import Node, BinaryTree
 from hashTable import ClosedHash
-from sorting import BucketSort, QuickSort, HeapSort
+from sorting import BucketSort, QuickSort, HeapSort,  CountingSort 
 from star import Star
 import numpy as np
 SCREEN_WIDTH = 1024
@@ -47,7 +48,7 @@ class MyGame(arcade.Window):
 
         for i in CARD_REAL_VALUES:
             self.real_cards.insert([i, CARD_REAL_VALUES[i]]) 
-
+        print(self.real_cards.map)
 
     def get_pile_for_card(self, card):
         for index, pile in enumerate(self.piles):
@@ -80,14 +81,17 @@ class MyGame(arcade.Window):
         self.get_star = arcade.load_sound(self.songs[2])
         self.round_winners = []
 
-        self.wins = {"Player 1" : 0, "Player 2"  : 0, "Player 3"  : 0, "Player 4"  : 0, "Player 5"  : 0, "Player 6" : 0, "Player 7"  : 0}
+        self.wins = {"Player 1" : 0, "Player 2"  : 0, "Player 3"  : 0, "Player 4"  : 0, 
+                    "Player 5"  : 0, "Player 6" : 0, "Player 7"  : 0}
+
         self.levels = []
         self.held_cards = [] 
         self.held_cards_original_position = [] 
         self.main_music.play(volume = 0.05, loop = True)
-
         #array of player scores
-        self.playerScores = [["Player 1", 0], ["Player 2", 0], ["Player 3", 0], ["Player 4", 0], ["Player 5", 0], ["Player 6", 0],["Player 7", 0]]
+        self.playerScores = [["Player 1", 0], ["Player 2", 0], ["Player 3", 0], 
+        ["Player 4", 0], ["Player 5", 0], ["Player 6", 0],["Player 7", 0]]
+
         self.pile_mat_list: arcade.SpriteList = arcade.SpriteList()
  
 
@@ -203,17 +207,18 @@ class MyGame(arcade.Window):
                  self.star_list[star_num].do_show()
                  
             
-
+            
 
             if(self.wins[win]==3):
-                     if (self.round_winners.pop() == "Player 1"):
+                     winner = self.round_winners.pop()
+                     if ( winner == "Player 1"):
                         txt = "You Win!!"    
                      else:
                         txt = "You Lose!!"
                      message_box = arcade.gui.UIMessageBox(
                             width=400,
                             height=400,
-                            message_text= txt + "\n Game Has Ended! \n The final winner is: " + self.round_winners.pop() ,
+                            message_text= txt + "\n Game Has Ended! \n The final winner is: " + winner ,
                             callback=self.close__(),
                             buttons=["Ok", "Cancel"]
                         )
@@ -251,7 +256,7 @@ class MyGame(arcade.Window):
         
 
 
-    def rank_players(self, type, arr):
+    def rank_players(self, type, arr, max__ = None):
         arr = arr
         if(type == "Bucket"):
             sort_tool = BucketSort()
@@ -259,6 +264,10 @@ class MyGame(arcade.Window):
             sort_tool = QuickSort("dec")
         elif(type == "Heap"):
             sort_tool = HeapSort()
+        elif(type == "Counting"):
+            sort_tool = CountingSort()
+            arr = sort_tool.sort(arr, np.max(max__))
+            return arr
         else:
             raise TypeError("Type not recognized!")
         
@@ -269,16 +278,31 @@ class MyGame(arcade.Window):
 
     def view_winners(self, event):
         
-        start = time()
-        rank = self.rank_players("Heap", self.playerScores)
-        end = time()
-        print(f"Heapsort Execution Time: {np.abs((start - end))} seconds")
+        # start = time.perf_counter()
+        # rank = self.rank_players("Heap", self.playerScores)
+        # end = time.perf_counter()
+        # print(f"Heapsort Execution Time: {np.abs((start - end))} seconds")
 
-        start = time()
+
+        # max__ = [int(i[1]) for i in self.playerScores ]
+        # start = time.perf_counter()
+        # rank = self.rank_players("Counting", self.playerScores, max__ = max__)
+        # end = time.perf_counter()
+        # print(f"Countingsort Execution Time: {np.abs((start - end))} seconds")
+
+
+        # max__ = [int(i[1]) for i in self.playerScores ]
+        # start = time.perf_counter()
+        # rank = self.rank_players("Bucket", self.playerScores)
+        # end = time.perf_counter()
+        # print(f"Bucket sort Execution Time: {np.abs((start - end))} seconds")
+
+        start = time.perf_counter()
         rank = self.rank_players("Quick", self.playerScores)
-        end = time()
+        end = time.perf_counter()
         print(f"Quicksort Execution Time: {np.abs((start - end))} seconds")
 
+        
         
         text = ""
         round_winner = self.playerScores[0][0]
